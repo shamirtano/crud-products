@@ -30,38 +30,34 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $slug = $request->slug;
+        $slug = $request->slug;
 
-            if ($slug == null || $slug == '') {
-                $slug = $request->name;
-                $slug = str_replace(' ', '-', $slug);
-                $slug = strtolower($slug);
-            } else {
-                $slug = str_replace(' ', '-', $slug);
-                $slug = strtolower($slug);
-            }
-
-            $request->slug = $slug;
-            // hasta aqui
-
-            $request->validate([
-                'name' => ['required', 'string', 'max:255'],
-            ]);
-
-            $category = new Category(); // esto es lo que cambia en el update
-
-            $category->name = $request->name;
-            $category->slug = $slug;
-            $category->description = $request->description;
-            $category->image = $request->image;
-
-            $category->save();
-
-            return redirect()->route('categories.index')->with('success', 'Categoría creada correctamente');
-        } catch (\Throwable $th) {
-            return redirect()->route('categories.index')->with('error', 'Error al crear la categoria');
+        if ($slug == null || $slug == '') {
+            $slug = $request->name;
+            $slug = str_replace(' ', '-', $slug);
+            $slug = strtolower($slug);
+        } else {
+            $slug = str_replace(' ', '-', $slug);
+            $slug = strtolower($slug);
         }
+
+        $request->slug = $slug;
+        // hasta aqui
+
+        $request->validate([
+            'name' => ['required', 'string', 'max:255', 'unique:categories'],
+        ]);
+
+        $category = new Category(); // esto es lo que cambia en el update
+
+        $category->name = $request->name;
+        $category->slug = $slug;
+        $category->description = $request->description;
+        $category->image = $request->image;
+
+        $category->save();
+
+        return redirect()->route('categories.index')->with('success', 'Categoría creada correctamente');
     }
 
     /**
@@ -86,29 +82,25 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        try {
-            $request->validate([
-                'name' => ['required', 'string', 'max:255'],
-                'slug' => ['required', 'string', 'max:255'],
-            ]);
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'slug' => ['required', 'string', 'max:255']
+        ]);
 
-            // busca la categoria
-            $category = Category::find($id);
+        // busca la categoria
+        $category = Category::find($id);
 
-            // la almacena en un objeto
-            $category->name = $request->name;
-            $category->slug = $request->slug;
-            $category->description = $request->description;
-            $category->image = $request->image;
-            $category->status = $request->status;
+        // la almacena en un objeto
+        $category->name = $request->name;
+        $category->slug = $request->slug;
+        $category->description = $request->description;
+        $category->image = $request->image;
+        $category->status = $request->status;
 
-            // actualiza la categoria
-            $category->save();
+        // actualiza la categoria
+        $category->save();
 
-            return redirect()->route('categories.index')->withErrors('success', 'Categoría actualizada correctamente');
-        } catch (\Throwable $th) {
-            return redirect()->route('categories.index')->withErrors('error', 'Error al actualizar la categoría');
-        }
+        return redirect()->route('categories.index')->with('success', 'Categoría actualizada correctamente');
     }
 
     /**
@@ -116,17 +108,14 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        try {
-            $productos = Category::find($id)->products;
-            if (count($productos) > 0) {
-                return redirect()->route('categories.index')->withErrors('error', 'No se puede eliminar la categoría porque tiene productos');
-            } else {
-                $category = Category::find($id);
-                $category->delete();
-                return redirect()->route('categories.index')->withErrors('success', 'Categoría eliminada correctamente');
-            }
-        } catch (\Throwable $th) {
-            return redirect()->route('categories.index')->withErrors('error', 'Error al eliminar la categoría');
+        $productos = Category::find($id)->products;
+
+        if (count($productos) > 0) {
+            return redirect()->route('categories.index')->with('error', 'No se puede eliminar la categoría porque tiene productos');
+        } else {
+            $category = Category::find($id);
+            $category->delete();
+            return redirect()->route('categories.index')->with('success', 'Categoría eliminada correctamente');
         }
     }
 }
