@@ -151,6 +151,7 @@ return [
         'email' => 'email',
         'password' => 'contraseña',
         'category_id' => 'categoría',
+        'category' => 'categoría',
         'description' => 'descripción',
         'image' => 'imagen',
     ],

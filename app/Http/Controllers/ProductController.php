@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Models\Product;
 use App\Models\Category;
 
@@ -63,7 +62,8 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        $product = Product::find($id)->with('category')->first();
+        $product = Product::find($id);
+        $product->category;
         return response()->json($product);
     }
 

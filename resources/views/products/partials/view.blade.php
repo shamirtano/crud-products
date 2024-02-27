@@ -9,6 +9,7 @@
         </div>
         <div class="modal-body">
             <div class="row">
+                <input type="hidden" name="id" id="id">
                 <div class="col-md-3">
                     <h4 class="mb-3">SKU</h4>
                     <h4 class="mb-3">Nombre</h4>

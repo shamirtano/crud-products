@@ -6,24 +6,15 @@
 
 {{-- Agregando el contenido de la vista --}}
 @section('content')
-    <div class="card">
+    <div class="card card-outline card-primary">
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
-                <h5 class="mb-0"><b>Productos</b></h5>
+                <h5 class="mb-0"><b><i class="fas fa-list"></i> Lista de Productos</b></h5>
                 <a href="{{ route('products.create') }}" class="btn btn-primary"><i class="fas fa-plus fw-sm"></i> Crear producto</a>
             </div>
         </div>
 
         <div class="card-body">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
             <div class="table-responsive">
                 <table class="table table-vcenter card-table" id="table">
                     <thead>
@@ -77,8 +68,9 @@
 
 @section('scripts')
     <script>
+        // confirmar eliminar
         $('.deleteForm').on('submit', function(e) {
-            e.preventDefault();
+            e.preventDefault(); // evitar el recargue de la pagina
             Swal.fire({
                 title: '¿Estás seguro?',
                 text: '¿Estás seguro de eliminar el producto?, esta operación no se puede revertir',
@@ -104,6 +96,7 @@
             });
         });
 
+        // mensajes
         @if (session('success'))
             Swal.fire({
                 position: 'top-end',
@@ -124,6 +117,7 @@
             });
         @endif
 
+        // modal ver
         $('#modal-view-product').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget)
             var id = button.data('id')
@@ -135,8 +129,8 @@
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {
+                    //console.log(data);
                     modal.find('.modal-body #sku').val(data.sku);
-                    console.log(data);
                     modal.find('.modal-body #name').val(data.name);
                     modal.find('.modal-body #slug').val(data.slug);
                     modal.find('.modal-body #category_id').val(data.category.name);

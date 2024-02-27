@@ -3,10 +3,10 @@
 @section('title', 'Editar Producto')
 
 @section('content')
-    <div class="card">
+    <div class="card card-outline card-success">
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
-                <h5 class="mb-0"><b>Actualizar Producto</b></h5>
+                <h5 class="mb-0"><b><i class="fas fa-edit"></i> Actualizar Producto</b></h5>
             </div>
         </div>
         <div class="card-body">

@@ -6,10 +6,10 @@
 
 {{-- Agregando el contenido de la vista --}}
 @section('content')
-    <div class="card">
+    <div class="card card-outline card-primary">
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
-                <h5 class="mb-0"><b>Categorías</b></h5>
+                <h5 class="mb-0"><b><i class="fas fa-list"></i> Lista de Categorías</b></h5>
                 <a href="{{ route('categories.create') }}" class="btn btn-primary"><i class="fas fa-plus fw-sm"></i> Crear categoría</a>
             </div>
         </div>

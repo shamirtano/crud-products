@@ -3,7 +3,7 @@
 @section('title', 'Crear Categoría')
 
 @section('content')
-    <div class="card">
+    <div class="card card-outline card-primary">
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
                 <h5 class="mb-0"><b>Crear Categoría</b></h5>
